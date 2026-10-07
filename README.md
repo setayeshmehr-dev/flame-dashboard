@@ -1,36 +1,93 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+Flame readme
 
-## Getting Started
+# 🔥 Flame — Admin Dashboard
 
-First, run the development server:
+A modern and responsive admin dashboard built with **Next.js, React, Tailwind CSS, and shadcn/ui**.
+Flame focuses on a clean and consistent UI, reusable components, responsive layouts, and modern dashboard interactions.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🚀 Live Demo
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+[Live Demo](https://admin-panel-eight-gules-17.vercel.app/dashboard)
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## 🛠️ Tech Stack
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Next.js**
+- **React**
+- **Tailwind CSS**
+- **shadcn/ui**
+- **Recharts**
 
-## Learn More
+## 🎯 Design Focus
 
-To learn more about Next.js, take a look at the following resources:
+- Clean and modern interface
+- Reusable components
+- Consistent design system
+- Responsive layouts
+- Interactive user experience
+- Maintainable project structure
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 👨‍💻 Developer
+  Amirali Setayeshmehr
+  
+### 👨‍💻 Sensei
+  Parsa Ghorbanian<br/>
+  <<[PARNIAN](https://trainingsitedesign.ir/)>><br/>
+  <<[Instagram](https://www.instagram.com/parsa_ghorbanian_web/)>>
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 📊 Dashboard Layout
 
-## Deploy on Vercel
+Overview of key metrics, charts, and analytics in a clean and intuitive dashboard.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+<img width="515" height="601" alt="Image" src="https://github.com/user-attachments/assets/c0b28f76-bfb6-461f-b419-67c13c4e5f3f" />
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+### 📦 Product Catalog
+
+Browse and manage products through a clean and responsive product management interface.
+
+<img width="510" height="602" alt="Image" src="https://github.com/user-attachments/assets/164e3313-8116-43cf-8aeb-53fe016cf79d" />
+
+---
+
+### 📋 Kanban Board
+
+Interactive drag & drop task management with multiple columns and smooth task positioning.
+
+<img width="510" height="598" alt="Image" src="https://github.com/user-attachments/assets/c1d67901-57b4-4393-a24d-8cff9c4f5bce" />
+
+---
+
+### 💬 Chat
+
+Responsive messaging interface with conversations, message history, and mobile-friendly navigation.
+
+<img width="510" height="601" alt="Image" src="https://github.com/user-attachments/assets/47808ff9-bd7f-49cd-a4cb-86820b0dccbc" />
+
+---
+
+### 🎨 Theme Customization
+
+Switch between Light, Dark, and System modes with multiple color presets and layout options.
+
+<img width="517" height="609" alt="Image" src="https://github.com/user-attachments/assets/7a9fb5ae-d3ef-48ae-9cd8-b92ddd1a3b0d" />
+
+<img width="515" height="606" alt="Image" src="https://github.com/user-attachments/assets/0dba55c9-84ed-46ce-8da2-b852ff5a329e" />
+
+---
+
+### 🔍 Global Search
+
+Quickly navigate through the dashboard using global search and keyboard shortcuts.
+
+<img width="514" height="611" alt="Image" src="https://github.com/user-attachments/assets/05c8af6a-fb39-4849-83ca-af84f9e8392a" />
+
+---
+
+## 📱 Responsive Design
+
+Flame is designed to provide a consistent experience across desktop, tablet, and mobile devices.
+
+<img width="515" height="603" alt="Image" src="https://github.com/user-attachments/assets/3000464c-2ef4-4a68-9ebf-a8ca67acdc71" />
+
+Check Live Demo for more .... 😉
