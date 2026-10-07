@@ -18,7 +18,7 @@ export default function DashboardLayout({ children }) {
   const isCollapsed = isDesktop && collapsed;
   const [searchOpen, setSearchOpen] = useState(false)
   const [appearanceOpen, setAppearanceOpen] = useState(false)
-  const [layoutMode, setLayoutMode] = useState("sidebar")
+  const [layoutMode, setLayoutMode] = useState(null)
 
   useEffect(() => {
     const handlePreferencesChange = () => {
