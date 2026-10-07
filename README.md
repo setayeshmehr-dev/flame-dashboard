@@ -38,7 +38,7 @@ Flame focuses on a clean and consistent UI, reusable components, responsive layo
 
 Overview of key metrics, charts, and analytics in a clean and intuitive dashboard.
 
-<img width="515" height="601" alt="Image" src="https://github.com/user-attachments/assets/c582244c-fc16-47a8-9456-cc1004357e16" />
+<img width="515" height="601" alt="Image" src="https://github.com/user-attachments/assets/c0b28f76-bfb6-461f-b419-67c13c4e5f3f" />
 
 ---
 
@@ -46,7 +46,7 @@ Overview of key metrics, charts, and analytics in a clean and intuitive dashboar
 
 Browse and manage products through a clean and responsive product management interface.
 
-<img width="510" height="602" alt="Image" src="https://github.com/user-attachments/assets/d4efb7f6-88e0-4843-a08c-b50c6229b374" />
+<img width="510" height="602" alt="Image" src="https://github.com/user-attachments/assets/164e3313-8116-43cf-8aeb-53fe016cf79d" />
 
 ---
 
@@ -54,7 +54,7 @@ Browse and manage products through a clean and responsive product management int
 
 Interactive drag & drop task management with multiple columns and smooth task positioning.
 
-<img width="510" height="598" alt="Image" src="https://github.com/user-attachments/assets/3a60b717-8928-47ab-bac5-1215ff69df47" />
+<img width="510" height="598" alt="Image" src="https://github.com/user-attachments/assets/c1d67901-57b4-4393-a24d-8cff9c4f5bce" />
 
 ---
 
@@ -62,7 +62,7 @@ Interactive drag & drop task management with multiple columns and smooth task po
 
 Responsive messaging interface with conversations, message history, and mobile-friendly navigation.
 
-<img width="510" height="601" alt="Image" src="https://github.com/user-attachments/assets/feead791-7664-466c-8c2d-dadaa8ee926e" />
+<img width="510" height="601" alt="Image" src="https://github.com/user-attachments/assets/47808ff9-bd7f-49cd-a4cb-86820b0dccbc" />
 
 ---
 
@@ -70,7 +70,9 @@ Responsive messaging interface with conversations, message history, and mobile-f
 
 Switch between Light, Dark, and System modes with multiple color presets and layout options.
 
-<img width="515" height="606" alt="Image" src="https://github.com/user-attachments/assets/c4431b86-e134-46d3-8112-2e0e02aa8689" />
+<img width="517" height="609" alt="Image" src="https://github.com/user-attachments/assets/7a9fb5ae-d3ef-48ae-9cd8-b92ddd1a3b0d" />
+
+<img width="515" height="606" alt="Image" src="https://github.com/user-attachments/assets/0dba55c9-84ed-46ce-8da2-b852ff5a329e" />
 
 ---
 
@@ -78,7 +80,7 @@ Switch between Light, Dark, and System modes with multiple color presets and lay
 
 Quickly navigate through the dashboard using global search and keyboard shortcuts.
 
-<img width="514" height="611" alt="Image" src="https://github.com/user-attachments/assets/4027e603-f0d3-4e01-b758-d0edd2066092" />
+<img width="514" height="611" alt="Image" src="https://github.com/user-attachments/assets/05c8af6a-fb39-4849-83ca-af84f9e8392a" />
 
 ---
 
@@ -86,6 +88,6 @@ Quickly navigate through the dashboard using global search and keyboard shortcut
 
 Flame is designed to provide a consistent experience across desktop, tablet, and mobile devices.
 
-<img width="515" height="603" alt="Image" src="https://github.com/user-attachments/assets/a3335460-9c13-44e8-b2ee-c1ea442fcf26" />
+<img width="515" height="603" alt="Image" src="https://github.com/user-attachments/assets/3000464c-2ef4-4a68-9ebf-a8ca67acdc71" />
 
 Check Live Demo for more .... 😉
