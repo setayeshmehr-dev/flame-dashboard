@@ -1,8 +1,7 @@
-
 "use client"
 
 import Link from "next/link"
-import { useState, useEffect } from "react"
+import { Suspense, useEffect, useState } from "react"
 import { useRouter, useParams } from "next/navigation"
 
 import { Button } from "@/components/ui/button"
@@ -35,7 +34,7 @@ import { Loader2 } from "lucide-react"
 import { getProducts, updateProduct } from "@/data/product"
 import { toast } from "sonner"
 
-export default function EditProductPage() {
+function EditProductContent() {
   const router = useRouter()
   const params = useParams()
   const productId = params.ID
@@ -155,7 +154,7 @@ export default function EditProductPage() {
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
-            <BreadcrumbLink render={<Link href="./../../dashboard" />}>
+            <BreadcrumbLink render={<Link href="/dashboard" />}>
               Dashboard
             </BreadcrumbLink>
           </BreadcrumbItem>
@@ -208,9 +207,7 @@ export default function EditProductPage() {
             <div className="grid gap-6 sm:grid-cols-2">
               {/* Name */}
               <div className="space-y-2">
-                <Label htmlFor="name">
-                  Product Name
-                </Label>
+                <Label htmlFor="name">Product Name</Label>
 
                 <Input
                   id="name"
@@ -228,13 +225,9 @@ export default function EditProductPage() {
                 )}
               </div>
 
-              {/* Category */}
-
               {/* Description */}
               <div className="space-y-2 sm:col-span-2">
-                <Label htmlFor="description">
-                  Description
-                </Label>
+                <Label htmlFor="description">Description</Label>
 
                 <Input
                   id="description"
@@ -252,10 +245,9 @@ export default function EditProductPage() {
                 )}
               </div>
 
+              {/* Category */}
               <div className="space-y-2">
-                <Label htmlFor="category">
-                  Category
-                </Label>
+                <Label htmlFor="category">Category</Label>
 
                 <Input
                   id="category"
@@ -272,7 +264,7 @@ export default function EditProductPage() {
                   </p>
                 )}
               </div>
-              
+
               {/* Status */}
               <div className="space-y-2">
                 <Label>Status</Label>
@@ -288,13 +280,8 @@ export default function EditProductPage() {
                   </SelectTrigger>
 
                   <SelectContent>
-                    <SelectItem value="active">
-                      Active
-                    </SelectItem>
-
-                    <SelectItem value="inactive">
-                      Inactive
-                    </SelectItem>
+                    <SelectItem value="active">Active</SelectItem>
+                    <SelectItem value="inactive">Inactive</SelectItem>
                   </SelectContent>
                 </Select>
 
@@ -307,9 +294,7 @@ export default function EditProductPage() {
 
               {/* Price */}
               <div className="space-y-2">
-                <Label htmlFor="price">
-                  Price
-                </Label>
+                <Label htmlFor="price">Price</Label>
 
                 <Input
                   id="price"
@@ -332,9 +317,7 @@ export default function EditProductPage() {
 
               {/* Stock */}
               <div className="space-y-2">
-                <Label htmlFor="stock">
-                  Stock
-                </Label>
+                <Label htmlFor="stock">Stock</Label>
 
                 <Input
                   id="stock"
@@ -382,3 +365,10 @@ export default function EditProductPage() {
   )
 }
 
+export default function EditProductPage() {
+  return (
+    <Suspense fallback={null}>
+      <EditProductContent />
+    </Suspense>
+  )
+}

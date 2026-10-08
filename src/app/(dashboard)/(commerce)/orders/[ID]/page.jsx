@@ -67,7 +67,7 @@ function getStatusConfig(status) {
         bg: "bg-emerald-50 dark:bg-emerald-950/30",
         border: "border-emerald-200 dark:border-emerald-800",
         badge:
-          "bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border-0",
+          "bg-emerald-500/15 w-auto px-2 text-emerald-600 dark:text-emerald-400 border-0",
       };
 
     case "pending":
@@ -78,7 +78,7 @@ function getStatusConfig(status) {
         bg: "bg-amber-50 dark:bg-amber-950/30",
         border: "border-amber-200 dark:border-amber-800",
         badge:
-          "bg-yellow-500/15 text-yellow-600 dark:text-yellow-400 border-0",
+          "bg-yellow-500/15 w-auto px-2 text-yellow-600 dark:text-yellow-400 border-0",
       };
 
     case "cancelled":
@@ -89,7 +89,7 @@ function getStatusConfig(status) {
         bg: "bg-red-50 dark:bg-red-950/30",
         border: "border-red-200 dark:border-red-800",
         badge:
-          "bg-red-500/15 text-red-600 dark:text-red-400 border-0",
+          "bg-red-500/15 w-auto px-2 text-red-600 dark:text-red-400 border-0",
       };
 
     default:
@@ -169,7 +169,7 @@ function OrderDetailsContent() {
             The order you are looking for does not exist.
           </p>
 
-          <Button asChild>
+          <Button>
             <Link href="/orders">Back to Orders</Link>
           </Button>
         </div>

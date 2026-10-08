@@ -1,5 +1,6 @@
 "use client"
 
+import { useUserProfile } from "@/context/UserProfileContext"
 import Link from "next/link"
 import { useState } from "react"
 import {
@@ -7,16 +8,13 @@ import {
   Mail,
   Phone,
   MapPin,
-  Calendar,
   Shield,
   Briefcase,
   Pencil,
   Save,
   X,
-  Clock,
   Package,
   Settings,
-  LogOut,
   Camera,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -26,28 +24,7 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb"
 import { toast } from "sonner"
-
-const userData = {
-  name: "Amirali Setayeshmehr",
-  role: "Admin",
-  email: "Setayeshmehr@flame.com",
-  phone: "+98 9198383305",
-  location: "Iran, Tehran",
-  bio: "I'm a passionate frontend developer with a strong attention to detail, focused on building responsive and user-friendly web applications. With expertise in modern JavaScript technologies like React, I transform ideas into functional, engaging, and seamless digital experiences.",
-  department: "Engineering",
-  language: "English, Persian",
-  initials: "AS",
-}
 
 const activityLog = [
   { action: "Updated order ORD-7891", time: "2 hours ago", icon: Package },
@@ -59,19 +36,31 @@ const activityLog = [
 ]
 
 export default function ProfilePage() {
-  const [activeTab, setActiveTab] = useState("overview")
+  const { userData, updateUserData } = useUserProfile()
+
   const [isEditing, setIsEditing] = useState(false)
   const [form, setForm] = useState({ ...userData })
   const [errors, setErrors] = useState({})
 
   const handleChange = (field, value) => {
-    setForm((prev) => ({ ...prev, [field]: value }))
-    setErrors((prev) => ({ ...prev, [field]: "" }))
+    setForm((prev) => ({
+      ...prev,
+      [field]: value,
+    }))
+
+    setErrors((prev) => ({
+      ...prev,
+      [field]: "",
+    }))
   }
 
   const handleSave = () => {
     const newErrors = {}
-    if (!form.name.trim()) newErrors.name = "Name is required."
+
+    if (!form.name.trim()) {
+      newErrors.name = "Name is required."
+    }
+
     if (!form.email.trim()) {
       newErrors.email = "Email is required."
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
@@ -79,9 +68,12 @@ export default function ProfilePage() {
     }
 
     setErrors(newErrors)
+
     if (Object.keys(newErrors).length > 0) return
 
+    updateUserData(form)
     setIsEditing(false)
+
     toast.success("Profile updated successfully")
   }
 
@@ -91,138 +83,374 @@ export default function ProfilePage() {
     setIsEditing(false)
   }
 
-  const joinedDate = new Date(userData.joined).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  })
-
   return (
-    <div className="p-6 space-y-6">
+    <div className="space-y-6 p-6">
       {/* Breadcrumb */}
-      <Breadcrumb>
-        <BreadcrumbList>
-          <BreadcrumbItem>
-            <BreadcrumbLink render={<Link href="dashboard" />}>Dashboard</BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            <BreadcrumbPage>Profile</BreadcrumbPage>
-          </BreadcrumbItem>
-        </BreadcrumbList>
-      </Breadcrumb>
+      <div>
+        <nav className="flex items-center gap-2 text-sm text-muted-foreground">
+          <Link
+            href="/dashboard"
+            className="transition-colors hover:text-foreground"
+          >
+            Dashboard
+          </Link>
+
+          <span>/</span>
+
+          <span className="text-foreground">Profile</span>
+        </nav>
+      </div>
 
       {/* Profile Header */}
-      <Card className="relative p-0! overflow-hidden">
-        <div className="h-32 bg-linear-to-br from-primary to-secondary from-25%  to-85%" />
+      <Card className="relative overflow-hidden p-0!">
+        <div className="h-32 bg-linear-to-br from-primary to-secondary from-25% to-85%" />
+
         <CardContent className="pt-0 pb-6">
-          <div className="flex flex-col sm:flex-row sm:items-end gap-4 -mt-12">
+          <div className="-mt-12 flex flex-col gap-4 sm:flex-row sm:items-end">
             <div className="relative">
-              <div className="h-24 w-24 rounded-full border-4 border-card bg-linear-to-br from-primary to-secondary from-25%  to-85% flex items-center justify-center text-white text-3xl font-bold shadow-lg">
+              <div className="flex h-24 w-24 items-center justify-center rounded-full border-4 border-card bg-linear-to-br from-primary to-secondary from-25% to-85% text-3xl font-bold text-white shadow-lg">
                 {userData.initials}
               </div>
-              <button className="absolute bottom-0 right-0 h-8 w-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-md hover:bg-primary/90 transition-colors">
+
+              <button
+                type="button"
+                className="absolute right-0 bottom-0 flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-md transition-colors hover:bg-primary/90"
+              >
                 <Camera className="h-4 w-4" />
               </button>
             </div>
-            <div className="flex-1 min-w-0">
-              <h1 className="text-xl md:text-2xl font-bold tracking-tight">{userData.name}</h1>
-              <div className="flex items-center gap-2 mt-1 flex-wrap">
-                <Badge variant="secondary" className="w-auto p-2 text-black capitalize">
+
+            <div className="min-w-0 flex-1">
+              <h1 className="text-xl font-bold tracking-tight md:text-2xl">
+                {userData.name}
+              </h1>
+
+              <div className="mt-1 flex flex-wrap items-center gap-2">
+                <Badge
+                  variant="secondary"
+                  className="w-auto p-2 text-black capitalize"
+                >
                   {userData.role}
                 </Badge>
-                <span className="text-sm text-muted-foreground flex items-center gap-1">
+
+                <span className="flex items-center gap-1 text-sm text-muted-foreground">
                   <MapPin className="h-3.5 w-3.5" />
                   {userData.location}
                 </span>
               </div>
             </div>
-            <div className="flex items-center gap-2 shrink-0">
-                <Link href="settings" className="group/button inline-flex shrink-0 items-center justify-center rounded-4xl border  border-transparent bg-clip-padding text-sm font-medium whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 bg-input/30 hover:bg-input/50 hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground h-8 gap-1 px-3 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2"  >
-                  <Pencil className="h-4 w-4 mr-1.5" />
-                  Edit Profile
-                </Link>
-            </div>
+
+            <Link
+                href="/settings"
+                className="inline-flex h-8 shrink-0 items-center justify-center gap-1 rounded-md border bg-background px-3 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground"
+              >
+              <Pencil className="mr-1.5 h-4 w-4" />
+              Edit Profile
+            </Link>
           </div>
         </CardContent>
       </Card>
 
-      {/* Overview Tab */}
-      {activeTab === "overview" && (
-        <div>
-          {/* Personal Info */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-base">Personal Information</CardTitle>
-              <CardDescription>Your basic profile details</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-5">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                <div className="flex items-center gap-3">
-                  <div className="h-9 w-9 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-                    <User className="h-4 w-4 text-primary" />
-                  </div>
-                  <div className="min-w-0">
-                    <p className="text-xs text-muted-foreground uppercase tracking-wider font-medium">Full Name</p>
-                    <p className="text-sm font-medium truncate">{userData.name}</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="h-9 w-9 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-                    <Mail className="h-4 w-4 text-primary" />
-                  </div>
-                  <div className="min-w-0">
-                    <p className="text-xs text-muted-foreground uppercase tracking-wider font-medium">Email</p>
-                    <p className="text-sm font-medium truncate">{userData.email}</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="h-9 w-9 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-                    <Phone className="h-4 w-4 text-primary" />
-                  </div>
-                  <div className="min-w-0">
-                    <p className="text-xs text-muted-foreground uppercase tracking-wider font-medium">Phone</p>
-                    <p className="text-sm font-medium">{userData.phone}</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="h-9 w-9 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-                    <MapPin className="h-4 w-4 text-primary" />
-                  </div>
-                  <div className="min-w-0">
-                    <p className="text-xs text-muted-foreground uppercase tracking-wider font-medium">Location</p>
-                    <p className="text-sm font-medium">{userData.location}</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="h-9 w-9 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-                    <Briefcase className="h-4 w-4 text-primary" />
-                  </div>
-                  <div className="min-w-0">
-                    <p className="text-xs text-muted-foreground uppercase tracking-wider font-medium">Department</p>
-                    <p className="text-sm font-medium">{userData.department}</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="h-9 w-9 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-                    <Shield className="h-4 w-4 text-primary" />
-                  </div>
-                  <div className="min-w-0">
-                    <p className="text-xs text-muted-foreground uppercase tracking-wider font-medium">Role</p>
-                    <p className="text-sm font-medium">{userData.role}</p>
-                  </div>
-                </div>
+      {/* Personal Information */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-base">
+            Personal Information
+          </CardTitle>
+
+          <CardDescription>
+            Your basic profile details
+          </CardDescription>
+        </CardHeader>
+
+        <CardContent className="space-y-5">
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+            <div className="flex items-center gap-3">
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary/10">
+                <User className="h-4 w-4 text-primary" />
               </div>
 
-              <Separator />
+              <div className="min-w-0">
+                <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                  Full Name
+                </p>
 
-              <div>
-                <p className="text-xs text-muted-foreground uppercase tracking-wider font-medium mb-2">Bio</p>
-                <p className="text-sm text-muted-foreground leading-relaxed">{userData.bio}</p>
+                <p className="truncate text-sm font-medium">
+                  {userData.name}
+                </p>
               </div>
-            </CardContent>
-          </Card>
-        </div>
+            </div>
+
+            <div className="flex items-center gap-3">
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary/10">
+                <Mail className="h-4 w-4 text-primary" />
+              </div>
+
+              <div className="min-w-0">
+                <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                  Email
+                </p>
+
+                <p className="truncate text-sm font-medium">
+                  {userData.email}
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3">
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary/10">
+                <Phone className="h-4 w-4 text-primary" />
+              </div>
+
+              <div className="min-w-0">
+                <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                  Phone
+                </p>
+
+                <p className="text-sm font-medium">
+                  {userData.phone}
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3">
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary/10">
+                <MapPin className="h-4 w-4 text-primary" />
+              </div>
+
+              <div className="min-w-0">
+                <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                  Location
+                </p>
+
+                <p className="text-sm font-medium">
+                  {userData.location}
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3">
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary/10">
+                <Briefcase className="h-4 w-4 text-primary" />
+              </div>
+
+              <div className="min-w-0">
+                <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                  Department
+                </p>
+
+                <p className="text-sm font-medium">
+                  {userData.department}
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3">
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary/10">
+                <Shield className="h-4 w-4 text-primary" />
+              </div>
+
+              <div className="min-w-0">
+                <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                  Role
+                </p>
+
+                <p className="text-sm font-medium">
+                  {userData.role}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <Separator />
+
+          <div>
+            <p className="mb-2 text-xs font-medium uppercase tracking-wider text-muted-foreground">
+              Bio
+            </p>
+
+            <p className="text-sm leading-relaxed text-muted-foreground">
+              {userData.bio}
+            </p>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Activity */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-base">
+            Recent Activity
+          </CardTitle>
+
+          <CardDescription>
+            Your latest account activity
+          </CardDescription>
+        </CardHeader>
+
+        <CardContent>
+          <div className="space-y-4">
+            {activityLog.map((activity, index) => {
+              const Icon = activity.icon
+
+              return (
+                <div
+                  key={index}
+                  className="flex items-center gap-3"
+                >
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-muted">
+                    <Icon className="h-4 w-4 text-muted-foreground" />
+                  </div>
+
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate text-sm font-medium">
+                      {activity.action}
+                    </p>
+
+                    <p className="text-xs text-muted-foreground">
+                      {activity.time}
+                    </p>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Edit Profile */}
+      {isEditing && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-base">
+              Edit Profile
+            </CardTitle>
+
+            <CardDescription>
+              Update your personal information
+            </CardDescription>
+          </CardHeader>
+
+          <CardContent className="space-y-5">
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="space-y-2">
+                <Label htmlFor="profile-name">Full Name</Label>
+
+                <Input
+                  id="profile-name"
+                  value={form.name}
+                  onChange={(e) =>
+                    handleChange("name", e.target.value)
+                  }
+                />
+
+                {errors.name && (
+                  <p className="text-xs text-destructive">
+                    {errors.name}
+                  </p>
+                )}
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="profile-email">Email</Label>
+
+                <Input
+                  id="profile-email"
+                  type="email"
+                  value={form.email}
+                  onChange={(e) =>
+                    handleChange("email", e.target.value)
+                  }
+                />
+
+                {errors.email && (
+                  <p className="text-xs text-destructive">
+                    {errors.email}
+                  </p>
+                )}
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="profile-phone">Phone</Label>
+
+                <Input
+                  id="profile-phone"
+                  value={form.phone}
+                  onChange={(e) =>
+                    handleChange("phone", e.target.value)
+                  }
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="profile-location">Location</Label>
+
+                <Input
+                  id="profile-location"
+                  value={form.location}
+                  onChange={(e) =>
+                    handleChange("location", e.target.value)
+                  }
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="profile-department">
+                  Department
+                </Label>
+
+                <Input
+                  id="profile-department"
+                  value={form.department}
+                  onChange={(e) =>
+                    handleChange("department", e.target.value)
+                  }
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="profile-role">Role</Label>
+
+                <Input
+                  id="profile-role"
+                  value={form.role}
+                  onChange={(e) =>
+                    handleChange("role", e.target.value)
+                  }
+                />
+              </div>
+
+              <div className="space-y-2 sm:col-span-2">
+                <Label htmlFor="profile-bio">Bio</Label>
+
+                <Textarea
+                  id="profile-bio"
+                  value={form.bio}
+                  onChange={(e) =>
+                    handleChange("bio", e.target.value)
+                  }
+                  rows={4}
+                  className="resize-y"
+                />
+              </div>
+            </div>
+
+            <div className="flex flex-wrap justify-end gap-2 border-t pt-5">
+              <Button
+                variant="outline"
+                onClick={handleCancel}
+              >
+                <X className="mr-1.5 h-4 w-4" />
+                Cancel
+              </Button>
+
+              <Button onClick={handleSave}>
+                <Save className="mr-1.5 h-4 w-4" />
+                Save Changes
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
       )}
     </div>
   )

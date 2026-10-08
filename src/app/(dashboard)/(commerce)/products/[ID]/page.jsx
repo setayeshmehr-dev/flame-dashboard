@@ -1,8 +1,8 @@
-"use client";
+"use client"
 
-import { useParams, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import Link from "next/link";
+import { Suspense, useEffect, useState } from "react"
+import { useParams, useRouter } from "next/navigation"
+import Link from "next/link"
 import {
   ArrowLeft,
   Calendar,
@@ -12,38 +12,38 @@ import {
   Pencil,
   Trash2,
   XCircle,
-} from "lucide-react";
+} from "lucide-react"
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button"
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
+} from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { Separator } from "@/components/ui/separator"
 
-import { getProducts, deleteProduct } from "@/data/product";
-import { toast } from "sonner";
+import { getProducts, deleteProduct } from "@/data/product"
+import { toast } from "sonner"
 
 function formatDate(dateString) {
-  if (!dateString) return "-";
+  if (!dateString) return "-"
 
-  const date = new Date(dateString);
+  const date = new Date(dateString)
 
   return date.toLocaleDateString("en-US", {
     year: "numeric",
     month: "short",
     day: "numeric",
-  });
+  })
 }
 
 function formatCurrency(amount, currency = "USD") {
   return new Intl.NumberFormat("en-US", {
     style: "currency",
     currency,
-  }).format(amount);
+  }).format(amount)
 }
 
 function getStatusConfig(status) {
@@ -55,7 +55,7 @@ function getStatusConfig(status) {
         color: "text-emerald-600 dark:text-emerald-400",
         bg: "bg-emerald-50 dark:bg-emerald-950/30",
         border: "border-emerald-200 dark:border-emerald-800",
-      };
+      }
 
     case "inactive":
       return {
@@ -64,7 +64,7 @@ function getStatusConfig(status) {
         color: "text-red-600 dark:text-red-400",
         bg: "bg-red-50 dark:bg-red-950/30",
         border: "border-red-200 dark:border-red-800",
-      };
+      }
 
     default:
       return {
@@ -73,45 +73,44 @@ function getStatusConfig(status) {
         color: "text-muted-foreground",
         bg: "bg-muted",
         border: "border-border",
-      };
+      }
   }
 }
 
-export default function ProductDetailsPage() {
-  const params = useParams();
-  const router = useRouter();
+function ProductDetailsContent() {
+  const params = useParams()
+  const router = useRouter()
 
-  const [product, setProduct] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [product, setProduct] = useState(null)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const products = getProducts();
-
-    const found = products.find((p) => p.id === params.ID);
+    const products = getProducts()
+    const found = products.find((p) => p.id === params.ID)
 
     if (found) {
-      setProduct(found);
+      setProduct(found)
     }
 
-    setLoading(false);
-  }, [params.ID]);
+    setLoading(false)
+  }, [params.ID])
 
   const handleCopyId = () => {
     if (product?.id) {
-      navigator.clipboard.writeText(product.id);
-      toast.success("Product ID copied to clipboard");
+      navigator.clipboard.writeText(product.id)
+      toast.success("Product ID copied to clipboard")
     }
-  };
+  }
 
   const handleDelete = () => {
-    if (!product) return;
+    if (!product) return
 
-    deleteProduct(product.id);
+    deleteProduct(product.id)
 
-    toast.success("Product deleted successfully");
+    toast.success("Product deleted successfully")
 
-    router.push("/products");
-  };
+    router.push("/products")
+  }
 
   if (loading) {
     return (
@@ -122,7 +121,7 @@ export default function ProductDetailsPage() {
           </div>
         </div>
       </div>
-    );
+    )
   }
 
   if (!product) {
@@ -139,23 +138,22 @@ export default function ProductDetailsPage() {
             The product you are looking for does not exist.
           </p>
 
-          <Button asChild>
-            <Link href="/products">Back to Products</Link>
+          <Button render={<Link href="/products" />}>
+            Back to Products
           </Button>
         </div>
       </div>
-    );
+    )
   }
 
-  const statusConfig = getStatusConfig(product.status);
-  const StatusIcon = statusConfig.icon;
+  const statusConfig = getStatusConfig(product.status)
 
   return (
     <div className="space-y-6 p-6">
       {/* Breadcrumb */}
       <nav className="flex items-center gap-2 text-sm text-muted-foreground">
         <Link
-          href="./../dashboard"
+          href="/dashboard"
           className="transition-colors hover:text-foreground"
         >
           Dashboard
@@ -344,7 +342,14 @@ export default function ProductDetailsPage() {
                 Status
               </p>
 
-              <Badge variant="outline" className={` px-8 py-2 ${product.status === "active" ? "border-emerald-200 bg-emerald-500/10 text-emerald-600 dark:border-emerald-800 dark:text-emerald-400" : "border-red-200 bg-red-500/10 text-red-600 dark:border-red-800 dark:text-red-400"}`}>
+              <Badge
+                variant="outline"
+                className={`px-8 py-2 ${
+                  product.status === "active"
+                    ? "border-emerald-200 bg-emerald-500/10 text-emerald-600 dark:border-emerald-800 dark:text-emerald-400"
+                    : "border-red-200 bg-red-500/10 text-red-600 dark:border-red-800 dark:text-red-400"
+                }`}
+              >
                 {statusConfig.label}
               </Badge>
             </div>
@@ -352,5 +357,13 @@ export default function ProductDetailsPage() {
         </Card>
       </div>
     </div>
-  );
+  )
+}
+
+export default function ProductDetailsPage() {
+  return (
+    <Suspense fallback={null}>
+      <ProductDetailsContent />
+    </Suspense>
+  )
 }

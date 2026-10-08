@@ -2,6 +2,7 @@ import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/themeProvider"
 import { Toaster } from "@/components/ui/sonner"
+import { UserProfileProvider } from "@/context/UserProfileContext"
 
 
 
@@ -19,10 +20,10 @@ export default function RootLayout({ children }) {
     <html suppressHydrationWarning lang="en" className={`${inter.variable} ${jetbrains.variable} overscroll-none h-full antialiased`}>
       <body className=" min-h-full overscroll-none flex flex-col">
         <ThemeProvider>
-          {children}
-          <Toaster
-            duration={5000}
-          />
+          <UserProfileProvider>
+            {children}
+            <Toaster duration={5000}/>
+          </UserProfileProvider>
         </ThemeProvider>
       </body>
     </html>

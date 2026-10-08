@@ -1,5 +1,6 @@
 import React from 'react'
 import SidebarItem from './sidebarItem'
+import { Suspense } from "react"
 
 import {AccordionContent, AccordionItem, AccordionTrigger} from "@/components/ui/accordion";
 
@@ -19,9 +20,11 @@ export default function SidebarGroup({ group, items, collapsed }) {
 
                 <div className="flex flex-col gap-1">
 
-                {items.map((item) => (
-                    <SidebarItem key={item.title} icon={item.icon} collapsed={collapsed} href={item.href} title={item.title}/>
-                ))}
+                <Suspense fallback={null}>
+                    {items.map((item) => (
+                        <SidebarItem key={item.title} icon={item.icon} collapsed={collapsed} href={item.href} title={item.title}/>
+                    ))}
+                </Suspense>
 
                 </div>
 

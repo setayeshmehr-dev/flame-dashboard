@@ -98,7 +98,7 @@ export default function NewProductPage() {
 
     createProduct(formData)
 
-    router.push("/products")
+    router.push("/products?created=true")
   }
 
   return (

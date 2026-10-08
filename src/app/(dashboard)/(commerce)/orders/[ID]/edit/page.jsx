@@ -1,23 +1,46 @@
 "use client"
 
 import Link from "next/link"
-import { useState, useEffect } from "react"
+import { Suspense, useState, useEffect } from "react"
 import { useRouter, useParams } from "next/navigation"
 
 import { Button, buttonVariants } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb"
 import { CalendarIcon, Loader2 } from "lucide-react"
 import { Calendar } from "@/components/ui/calendar"
-import { Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
 import { format, parseISO } from "date-fns"
 import { getOrders, updateOrder } from "@/data/orders"
 import { toast } from "sonner"
 
-export default function EditOrderPage() {
+function EditOrderContent() {
   const router = useRouter()
   const params = useParams()
   const orderId = params.ID
@@ -39,7 +62,7 @@ export default function EditOrderPage() {
   useEffect(() => {
     const orders = getOrders()
     const order = orders.find((o) => o.id === orderId)
-    
+
     if (order) {
       setFormData({
         customerName: order.customer.name,
@@ -50,7 +73,7 @@ export default function EditOrderPage() {
         date: parseISO(order.date),
       })
     }
-    
+
     setLoading(false)
   }, [orderId])
 
@@ -125,9 +148,9 @@ export default function EditOrderPage() {
     return (
       <div className="space-y-6 p-6">
         <div className="animate-pulse space-y-4">
-          <div className="h-8 w-48 bg-muted rounded" />
-          <div className="h-4 w-64 bg-muted rounded" />
-          <div className="h-96 bg-muted rounded" />
+          <div className="h-8 w-48 rounded bg-muted" />
+          <div className="h-4 w-64 rounded bg-muted" />
+          <div className="h-96 rounded bg-muted" />
         </div>
       </div>
     )
@@ -138,7 +161,7 @@ export default function EditOrderPage() {
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
-            <BreadcrumbLink render={<Link href="./../../dashboard" />}>
+            <BreadcrumbLink render={<Link href="/dashboard" />}>
               Dashboard
             </BreadcrumbLink>
           </BreadcrumbItem>
@@ -202,6 +225,7 @@ export default function EditOrderPage() {
                   }
                   placeholder="Amirali Setayeshmehr"
                 />
+
                 {errors.customerName && (
                   <p className="text-sm text-destructive">
                     {errors.customerName}
@@ -223,6 +247,7 @@ export default function EditOrderPage() {
                   }
                   placeholder="Setayeshmehr@example.com"
                 />
+
                 {errors.customerEmail && (
                   <p className="text-sm text-destructive">
                     {errors.customerEmail}
@@ -243,6 +268,7 @@ export default function EditOrderPage() {
                   }
                   placeholder="Product name"
                 />
+
                 {errors.productName && (
                   <p className="text-sm text-destructive">
                     {errors.productName}
@@ -277,6 +303,7 @@ export default function EditOrderPage() {
                     </SelectItem>
                   </SelectContent>
                 </Select>
+
                 {errors.status && (
                   <p className="text-sm text-destructive">
                     {errors.status}
@@ -299,6 +326,7 @@ export default function EditOrderPage() {
                   }
                   placeholder="888"
                 />
+
                 {errors.amount && (
                   <p className="text-sm text-destructive">
                     {errors.amount}
@@ -306,7 +334,7 @@ export default function EditOrderPage() {
                 )}
               </div>
 
-             <div className=" space-y-2">
+              <div className="space-y-2">
                 <Label>Date</Label>
 
                 <Popover>
@@ -324,15 +352,21 @@ export default function EditOrderPage() {
                     <CalendarIcon className="size-4 opacity-50" />
                   </PopoverTrigger>
 
-                  <PopoverContent className="w-auto p-0" align="start">
+                  <PopoverContent
+                    className="w-auto p-0"
+                    align="start"
+                  >
                     <Calendar
                       mode="single"
                       selected={formData.date}
-                      onSelect={(date) => handleChange("date", date)}
+                      onSelect={(date) =>
+                        handleChange("date", date)
+                      }
                       initialFocus
                     />
                   </PopoverContent>
                 </Popover>
+
                 {errors.date && (
                   <p className="text-sm text-destructive">
                     {errors.date}
@@ -345,13 +379,18 @@ export default function EditOrderPage() {
               <Button
                 type="button"
                 variant="outline"
-                onClick={() => router.push(`/orders/${orderId}`)}
+                onClick={() =>
+                  router.push(`/orders/${orderId}`)
+                }
               >
                 Cancel
               </Button>
 
               <Button type="submit" disabled={saving}>
-                {saving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                {saving && (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                )}
+
                 Save Changes
               </Button>
             </div>
@@ -359,5 +398,13 @@ export default function EditOrderPage() {
         </CardContent>
       </Card>
     </div>
+  )
+}
+
+export default function EditOrderPage() {
+  return (
+    <Suspense fallback={null}>
+      <EditOrderContent />
+    </Suspense>
   )
 }
