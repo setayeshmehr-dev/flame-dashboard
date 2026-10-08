@@ -6,8 +6,9 @@ A modern and responsive admin dashboard built with **Next.js, React, Tailwind CS
 Flame focuses on a clean and consistent UI, reusable components, responsive layouts, and modern dashboard interactions.
 
 ## 🚀 Live Demo
-
-[Live Demo](https://admin-panel-eight-gules-17.vercel.app/dashboard)
+<a href="https://admin-panel-eight-gules-17.vercel.app/dashboard">
+  <img width="100" height="60" alt="Image" src="https://github.com/user-attachments/assets/be32728f-e565-423c-bc17-901a5e7e02c8" />
+</a>
 
 ## 🛠️ Tech Stack
 
