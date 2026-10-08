@@ -1,14 +1,23 @@
 "use client"
 
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { Eye, EyeOff, Flame } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
 
 export default function LoginPage() {
+  const router = useRouter()
+
   const [showPassword, setShowPassword] = useState(false)
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
@@ -17,9 +26,12 @@ export default function LoginPage() {
   const handleAutoFill = () => {
     setEmail("admin@flame.dev")
     setPassword("flame123")
+    setErrors({})
   }
 
   const handleSubmit = (e) => {
+    e.preventDefault()
+
     const newErrors = {}
 
     if (!email.trim()) {
@@ -33,33 +45,54 @@ export default function LoginPage() {
     }
 
     if (Object.keys(newErrors).length > 0) {
-      e.preventDefault()
       setErrors(newErrors)
       return
     }
 
     setErrors({})
+    router.push("/dashboard")
   }
 
   return (
-    <div className="relative min-h-screen overflow-hidden flex items-center justify-center bg-background px-4">
-      <svg className="md:w-300 w-200 md:h-220 h-220 z-10 absolute bottom-0 overflow-visible right-0 -rotate-45">
+    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-background px-4">
+      <svg
+        aria-hidden="true"
+        className="absolute bottom-0 right-0 z-10 h-220 w-200 -rotate-45 overflow-visible md:h-220 md:w-300"
+      >
         <defs>
-          <linearGradient id="flame-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <linearGradient
+            id="flame-gradient"
+            x1="0%"
+            y1="0%"
+            x2="100%"
+            y2="100%"
+          >
             <stop offset="25%" stopColor="var(--primary)" />
             <stop offset="85%" stopColor="var(--secondary)" />
           </linearGradient>
         </defs>
 
-        <Flame size="1400" className="size-full" stroke="url(#flame-gradient)"/>
+        <Flame
+          size="1400"
+          className="size-full"
+          stroke="url(#flame-gradient)"
+        />
       </svg>
-      <Card className="w-full bg-background/80 z-20 max-w-sm border-border/60 shadow-sm">
+
+      <Card className="z-20 w-full max-w-sm border-border/60 bg-background/80 shadow-sm">
         <CardHeader className="space-y-4 text-center">
-          <div className="mx-auto m-0 flex size-11 items-center justify-center rounded-xl">
-            <Flame className="size-7" stroke="url(#flame-gradient)"/>
+          <div className="mx-auto flex size-11 items-center justify-center rounded-xl">
+            <Flame
+              aria-hidden="true"
+              className="size-7"
+              stroke="url(#flame-gradient)"
+            />
           </div>
 
-          <span className="bg-linear-to-br m-0 from-primary from-25% to-secondary to-85% bg-clip-text text-transparent text-3xl ps-2.5 font-semibold">Flame</span>
+          <span className="m-0 bg-linear-to-br from-primary from-25% to-secondary to-85% bg-clip-text ps-2.5 text-3xl font-semibold text-transparent">
+            Flame
+          </span>
+
           <div className="space-y-1">
             <CardTitle className="text-2xl">Welcome back</CardTitle>
             <CardDescription>
@@ -72,6 +105,7 @@ export default function LoginPage() {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
+
               <Input
                 id="email"
                 type="email"
@@ -79,12 +113,17 @@ export default function LoginPage() {
                 value={email}
                 onChange={(e) => {
                   setEmail(e.target.value)
-                  setErrors((prev) => ({ ...prev, email: "" }))
+                  setErrors((prev) => ({
+                    ...prev,
+                    email: "",
+                  }))
                 }}
               />
 
               {errors.email && (
-                <p className="text-xs text-destructive">{errors.email}</p>
+                <p className="text-xs text-destructive">
+                  {errors.email}
+                </p>
               )}
             </div>
 
@@ -99,30 +138,47 @@ export default function LoginPage() {
                   value={password}
                   onChange={(e) => {
                     setPassword(e.target.value)
-                    setErrors((prev) => ({ ...prev, password: "" }))
+                    setErrors((prev) => ({
+                      ...prev,
+                      password: "",
+                    }))
                   }}
                   className="pr-10"
                 />
 
-                {errors.password && (
-                  <p className="text-xs text-destructive">{errors.password}</p>
-                )}
-
-                <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground">
+                <button
+                  type="button"
+                  aria-label={
+                    showPassword ? "Hide password" : "Show password"
+                  }
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  className="absolute right-0 top-1/2 flex size-9 -translate-y-1/2 items-center justify-center text-muted-foreground transition-colors hover:text-foreground"
+                >
                   {showPassword ? (
-                    <EyeOff className="size-4" />
+                    <EyeOff aria-hidden="true" className="size-4" />
                   ) : (
-                    <Eye className="size-4" />
+                    <Eye aria-hidden="true" className="size-4" />
                   )}
                 </button>
               </div>
+
+              {errors.password && (
+                <p className="text-xs text-destructive">
+                  {errors.password}
+                </p>
+              )}
             </div>
 
-            <Link href="dashboard" onClick={handleSubmit} className="flex bg-primary items-center h-9 gap-1.5 px-3 justify-center text-primary-foreground hover:bg-primary/90 rounded-full w-full">
+            <Button type="submit" className="w-full">
               Sign in
-            </Link>
+            </Button>
 
-            <Button type="button" variant="outline" className="w-full" onClick={handleAutoFill}>
+            <Button
+              type="button"
+              variant="outline"
+              className="w-full"
+              onClick={handleAutoFill}
+            >
               Auto Fill
             </Button>
           </form>
