@@ -3,38 +3,12 @@
 import { Suspense, useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
-import {
-  ArrowLeft,
-  Calendar,
-  CheckCircle2,
-  Clock,
-  Copy,
-  CreditCard,
-  Mail,
-  MoreHorizontal,
-  Package,
-  Pencil,
-  Trash2,
-  User,
-  XCircle,
-} from "lucide-react";
 
+import { ArrowLeft, Calendar, CheckCircle2, Clock, Copy, Mail, Package, Pencil, Trash2, XCircle} from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle,} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-
 import { getOrders, deleteOrder } from "@/data/orders";
 import { toast } from "sonner";
 

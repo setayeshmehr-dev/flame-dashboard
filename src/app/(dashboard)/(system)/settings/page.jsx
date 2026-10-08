@@ -5,38 +5,14 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useState, useEffect } from "react"
 import { useTheme } from "next-themes"
-import {
-  User,
-  Save,
-  X,
-  Sun,
-  Moon,
-  Monitor,
-  PanelLeft,
-  PanelTop,
-  Palette,
-  Settings2,
-} from "lucide-react"
+import { User, Save, X, Sun, Moon, Monitor, PanelLeft, PanelTop, Palette, Settings2,} from "lucide-react"
 import { Button } from "@/components/ui/button"
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-} from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle, CardDescription,} from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb"
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator} from "@/components/ui/breadcrumb"
 import { toast } from "sonner"
 
 import AppearanceItem from "@/components/layout/appearanceItem"
