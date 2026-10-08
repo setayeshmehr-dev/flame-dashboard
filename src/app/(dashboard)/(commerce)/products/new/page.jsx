@@ -4,17 +4,32 @@ import Link from "next/link"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 
-import { Button, buttonVariants } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { createProduct } from "@/data/product"
+import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb"
-import { CalendarIcon } from "lucide-react"
-import { Calendar } from "@/components/ui/calendar"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
-import { format } from "date-fns"
-import { createProduct } from "@/data/product"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb"
 
 export default function NewProductPage() {
   const router = useRouter()
@@ -26,7 +41,6 @@ export default function NewProductPage() {
     status: "active",
     stock: "",
     price: "",
-    date: undefined,
   })
 
   const [errors, setErrors] = useState({})
@@ -64,20 +78,16 @@ export default function NewProductPage() {
       newErrors.status = "Please select a status."
     }
 
-    if (!formData.stock) {
+    if (formData.stock === "") {
       newErrors.stock = "Stock is required."
     } else if (Number(formData.stock) < 0) {
       newErrors.stock = "Stock cannot be negative."
     }
 
-    if (!formData.price) {
+    if (formData.price === "") {
       newErrors.price = "Price is required."
     } else if (Number(formData.price) <= 0) {
       newErrors.price = "Price must be greater than 0."
-    }
-
-    if (!formData.date) {
-      newErrors.date = "Date is required."
     }
 
     setErrors(newErrors)
@@ -86,12 +96,9 @@ export default function NewProductPage() {
       return
     }
 
-    createProduct({
-      ...formData,
-      createdAt: format(formData.date, "yyyy-MM-dd"),
-    })
+    createProduct(formData)
 
-    router.push("/products?created=true")
+    router.push("/products")
   }
 
   return (
@@ -99,7 +106,7 @@ export default function NewProductPage() {
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
-            <BreadcrumbLink render={<Link href="./../dashboard" />}>
+            <BreadcrumbLink render={<Link href="/dashboard" />}>
               Dashboard
             </BreadcrumbLink>
           </BreadcrumbItem>
@@ -142,11 +149,8 @@ export default function NewProductPage() {
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid gap-6 sm:grid-cols-2">
-
               <div className="space-y-2">
-                <Label htmlFor="name">
-                  Product Name
-                </Label>
+                <Label htmlFor="name">Product Name</Label>
 
                 <Input
                   id="name"
@@ -164,11 +168,8 @@ export default function NewProductPage() {
                 )}
               </div>
 
-
               <div className="space-y-2 sm:col-span-2">
-                <Label htmlFor="description">
-                  Description
-                </Label>
+                <Label htmlFor="description">Description</Label>
 
                 <Input
                   id="description"
@@ -185,11 +186,9 @@ export default function NewProductPage() {
                   </p>
                 )}
               </div>
-              
+
               <div className="space-y-2">
-                <Label htmlFor="category">
-                  Category
-                </Label>
+                <Label htmlFor="category">Category</Label>
 
                 <Input
                   id="category"
@@ -221,17 +220,9 @@ export default function NewProductPage() {
                   </SelectTrigger>
 
                   <SelectContent>
-                    <SelectItem value="active">
-                      Active
-                    </SelectItem>
-
-                    <SelectItem value="draft">
-                      Draft
-                    </SelectItem>
-
-                    <SelectItem value="archived">
-                      Archived
-                    </SelectItem>
+                    <SelectItem value="active">Active</SelectItem>
+                    <SelectItem value="draft">Draft</SelectItem>
+                    <SelectItem value="archived">Archived</SelectItem>
                   </SelectContent>
                 </Select>
 
@@ -243,9 +234,7 @@ export default function NewProductPage() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="stock">
-                  Stock
-                </Label>
+                <Label htmlFor="stock">Stock</Label>
 
                 <Input
                   id="stock"
@@ -266,9 +255,7 @@ export default function NewProductPage() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="price">
-                  Price
-                </Label>
+                <Label htmlFor="price">Price</Label>
 
                 <Input
                   id="price"
@@ -287,7 +274,6 @@ export default function NewProductPage() {
                   </p>
                 )}
               </div>
-
             </div>
 
             <div className="flex items-center justify-end gap-2 border-t pt-6">

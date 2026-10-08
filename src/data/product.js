@@ -181,20 +181,31 @@ export const products = [
   },
 ];
 
-// فقط در حافظه (RAM) نگه می‌دارد — با Reload صفحه ریست می‌شود
-let _products = [...products];
+const getStore = () => {
+  if (typeof window === "undefined") {
+    return products
+  }
+
+  if (!window.__flameProducts) {
+    window.__flameProducts = [...products]
+  }
+
+  return window.__flameProducts
+}
 
 export function getProducts() {
-  return [..._products];
+  return [...getStore()]
 }
 
 export function saveProducts(newProducts) {
-  _products = [...newProducts];
+  if (typeof window === "undefined") return
+
+  window.__flameProducts = [...newProducts]
 }
 
 export function createProduct(productData) {
   const newProduct = {
-    id: `PRD-${Math.floor(1000 + Math.random() * 9000)}`,
+    id: `PRD-${Date.now()}`,
     name: productData.name,
     description: productData.description,
     category: productData.category,
@@ -202,19 +213,24 @@ export function createProduct(productData) {
     stock: Number(productData.stock),
     price: Number(productData.price),
     currency: "USD",
-    createdAt: productData.createdAt,
-  };
+    createdAt: new Date().toISOString().split("T")[0],
+  }
 
-  _products = [newProduct, ..._products];
+  const currentProducts = getProducts()
 
-  return newProduct;
+  saveProducts([newProduct, ...currentProducts])
+
+  return newProduct
 }
 
 export function updateProduct(id, productData) {
-  const currentProducts = getProducts();
-  const index = currentProducts.findIndex((product) => product.id === id);
+  const currentProducts = getProducts()
 
-  if (index === -1) return null;
+  const index = currentProducts.findIndex(
+    (product) => product.id === id
+  )
+
+  if (index === -1) return null
 
   currentProducts[index] = {
     ...currentProducts[index],
@@ -225,14 +241,17 @@ export function updateProduct(id, productData) {
     stock: Number(productData.stock),
     price: Number(productData.price),
     currency: "USD",
-    createdAt: productData.createdAt,
-  };
+  }
 
-  _products = [...currentProducts];
+  saveProducts(currentProducts)
 
-  return currentProducts[index];
+  return currentProducts[index]
 }
 
 export function deleteProduct(id) {
-  _products = _products.filter((product) => product.id !== id);
+  const currentProducts = getProducts()
+
+  saveProducts(
+    currentProducts.filter((product) => product.id !== id)
+  )
 }

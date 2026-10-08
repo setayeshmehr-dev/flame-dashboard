@@ -18,7 +18,7 @@ export default function DashboardLayout({ children }) {
   const isCollapsed = isDesktop && collapsed;
   const [searchOpen, setSearchOpen] = useState(false)
   const [appearanceOpen, setAppearanceOpen] = useState(false)
-  const [layoutMode, setLayoutMode] = useState(null)
+  const [layoutMode, setLayoutMode] = useState("sidebar")
 
   useEffect(() => {
     const handlePreferencesChange = () => {
@@ -58,9 +58,7 @@ export default function DashboardLayout({ children }) {
     };
   }, []);
 
-  if (!layoutMode) {
-    return <div className="min-h-screen bg-background" />
-  }
+
 
   const changeLayout = (value) => {
     setLayoutMode(value)
