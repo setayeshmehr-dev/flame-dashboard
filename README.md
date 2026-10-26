@@ -1,6 +1,6 @@
 Flame readme
 
-# 🔥 Flame — Dashboard
+# 🔥 Flame — Admin Panel
 
 A modern and responsive admin dashboard built with **Next.js, React, Tailwind CSS, and shadcn/ui**.
 Flame focuses on a clean and consistent UI, reusable components, responsive layouts, and modern dashboard interactions.
